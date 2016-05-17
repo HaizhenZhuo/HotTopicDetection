@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * 系统红包信息和系统频道所有信息都没有记录在log中
  * Created by hzzhuohaizhen on 2016/5/16.
  * 602634+47905
  *
@@ -47,17 +48,23 @@ public class FilterDataUtilTest
             "20160420","20160427","20160428","20160429","20160430"};
     private String []allPartFile= new String[]{"00","01", "02","03","04","05","06",
             "07","08","09","10","11", "12","13","14","15"};
-//    private String []allDate = new String[]{"20160406"};
-//    private String []allPartFile= new String[]{"15"};
+
     private String []allTimePeriod= new String[]{
-            "01.txt","02.txt","03.txt","04.txt","05.txt","06.txt","07.txt","08.txt"};
+        "2016-04-06—19:04:00_2016-04-07-09:00:00.txt",
+        "2016-04-07-10:00:00_2016-04-09-10:00:00.txt",
+        "2016-04-12-18:53:00_2016-04-14-08:00:00.txt",
+        "2016-04-14-10:00:00_2016-04-16-10:00:00.txt",
+        "2016-04-16-17:23:00_2016-04-18-09:00:00.txt",
+        "2016-04-18-10:00:00_2016-04-20-10:00:00.txt",
+        "2016-04-27-17:09:00_2016-04-28-09:00:00.txt",
+        "2016-04-28-10:00:00_2016-04-30-10:00:00.txt"};
 
     public void initialUserList()
     {
-        userList[0] = FilterDataUtil.readUserAccountIDList("Data\\FilteredConfig\\UserList\\4.6-4.9.txt");
-        userList[1] = FilterDataUtil.readUserAccountIDList("Data\\FilteredConfig\\UserList\\4.12-4.16.txt");
-        userList[2] = FilterDataUtil.readUserAccountIDList("Data\\FilteredConfig\\UserList\\4.16-4.20.txt");
-        userList[3] = FilterDataUtil.readUserAccountIDList("Data\\FilteredConfig\\UserList\\4.27-4.30.txt");
+        userList[0] = FilterDataUtil.readUserAccountIDList("Data/FilteredConfig/UserList/4.6-4.9.txt");
+        userList[1] = FilterDataUtil.readUserAccountIDList("Data/FilteredConfig/UserList/4.12-4.16.txt");
+        userList[2] = FilterDataUtil.readUserAccountIDList("Data/FilteredConfig/UserList/4.16-4.20.txt");
+        userList[3] = FilterDataUtil.readUserAccountIDList("Data/FilteredConfig/UserList/4.27-4.30.txt");
         for(int i=0;i<userList.length;i++)
         {
             //System.err.println("userList长度--------------"+userList[i].size());
@@ -69,9 +76,9 @@ public class FilterDataUtilTest
     {
         //初始化userList
         initialUserList();
-        String inputFilePath = "Data\\OriginData\\dt=";
+        String inputFilePath = "Data/OriginData/dt=";
         try {
-            fileWriter = new FileWriter("Data\\allValidReview.txt");
+            fileWriter = new FileWriter("Data/allValidReview.txt");
             fileWriter1 = new FileWriter(allTimePeriod[0]);
             fileWriter2 = new FileWriter(allTimePeriod[1]);
             fileWriter3 = new FileWriter(allTimePeriod[2]);
@@ -93,16 +100,16 @@ public class FilterDataUtilTest
             {
                 for(String partFile:allPartFile )
                 {
-                    String inputFile = inputFilePath+date+"\\"+partFile+"Chat"+date+"00_"+date+"23_"+date+"000000";
+                    String inputFile = inputFilePath+date+"/"+partFile+"Chat"+date+"00_"+date+"23_"+date+"000000";
                     FilterReview(inputFile);
                 }
             }
-            System.err.print("All Review Count: "+ countAllValidReview);
-            System.err.print("All Valid Review Count: "+ countAllValidReview);
+            System.err.println("All Review Count: "+ countAllReview);
+            System.err.println("All Valid Review Count: "+ countAllValidReview);
 
             for(int i=0;i<arrFileWriterCount.length;i++)
             {
-                System.err.print("the count of "+i+" period: "+ arrFileWriterCount[i]);
+                System.err.println("the count of "+i+" period: "+ arrFileWriterCount[i]);
             }
 
             fileWriter.flush();
