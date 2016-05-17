@@ -32,14 +32,6 @@ public class FilterDataUtilTest
     private int countAllReview = 0;
     private int[] arrFileWriterCount = new int[8];
     private FileWriter fileWriter = null;
-    private FileWriter fileWriter1 = null;
-    private FileWriter fileWriter2 = null;
-    private FileWriter fileWriter3 = null;
-    private FileWriter fileWriter4 = null;
-    private FileWriter fileWriter5 = null;
-    private FileWriter fileWriter6 = null;
-    private FileWriter fileWriter7 = null;
-    private FileWriter fileWriter8 = null;
     private List<FileWriter> fileWriterList = new ArrayList<FileWriter>();
 
     private String []allDate = new String[]{"20160406","20160407",
@@ -67,7 +59,8 @@ public class FilterDataUtilTest
         userList[3] = FilterDataUtil.readUserAccountIDList("Data/FilteredConfig/UserList/4.27-4.30.txt");
         for(int i=0;i<userList.length;i++)
         {
-            //System.err.println("userList长度--------------"+userList[i].size());
+            System.err.println(allTimePeriod[i*2]+"用户名单数: "+userList[i].size());
+            System.err.println(allTimePeriod[i*2+1]+"用户名单数: "+userList[i].size());
         }
     }
 
@@ -79,22 +72,10 @@ public class FilterDataUtilTest
         String inputFilePath = "Data/OriginData/dt=";
         try {
             fileWriter = new FileWriter("Data/allValidReview.txt");
-            fileWriter1 = new FileWriter(allTimePeriod[0]);
-            fileWriter2 = new FileWriter(allTimePeriod[1]);
-            fileWriter3 = new FileWriter(allTimePeriod[2]);
-            fileWriter4 = new FileWriter(allTimePeriod[3]);
-            fileWriter5 = new FileWriter(allTimePeriod[4]);
-            fileWriter6 = new FileWriter(allTimePeriod[5]);
-            fileWriter7 = new FileWriter(allTimePeriod[6]);
-            fileWriter8 = new FileWriter(allTimePeriod[7]);
-            fileWriterList.add(fileWriter1);
-            fileWriterList.add(fileWriter2);
-            fileWriterList.add(fileWriter3);
-            fileWriterList.add(fileWriter4);
-            fileWriterList.add(fileWriter5);
-            fileWriterList.add(fileWriter6);
-            fileWriterList.add(fileWriter7);
-            fileWriterList.add(fileWriter8);
+            for (int i=0;i<allTimePeriod.length;i++)
+            {
+                fileWriterList.add(new FileWriter(allTimePeriod[i]));
+            }
 
             for(String date:allDate)
             {
@@ -113,23 +94,13 @@ public class FilterDataUtilTest
             }
 
             fileWriter.flush();
-            fileWriter1.flush();
-            fileWriter2.flush();
-            fileWriter3.flush();
-            fileWriter4.flush();
-            fileWriter5.flush();
-            fileWriter6.flush();
-            fileWriter7.flush();
-            fileWriter8.flush();
             fileWriter.close();
-            fileWriter1.close();
-            fileWriter2.close();
-            fileWriter3.close();
-            fileWriter4.close();
-            fileWriter5.close();
-            fileWriter6.close();
-            fileWriter7.close();
-            fileWriter8.close();
+            for (int i=0;i<allTimePeriod.length;i++)
+            {
+                fileWriterList.get(i).flush();
+                fileWriterList.get(i).close();
+            }
+
 
 
         } catch (IOException e) {
@@ -139,6 +110,10 @@ public class FilterDataUtilTest
     }
 
 
+    /**
+     * 对指定文件进行过滤评论
+     * @param inputFile
+     */
     public void FilterReview(String inputFile)
     {
         try {
@@ -171,12 +146,12 @@ public class FilterDataUtilTest
                 if(line==null)
                     continue;
                 reviewInfo = line.split("\t");
-                time_stamp = Long.parseLong(reviewInfo[8]);
                 time = reviewInfo[0];
                 account_id = reviewInfo[2];
                 role_id = reviewInfo[5];
-                content = reviewInfo[9];
-                channel = reviewInfo[19];
+                time_stamp = Long.parseLong(reviewInfo[8]);//时间戳
+                content = reviewInfo[9];//评论内容
+                channel = reviewInfo[19];//频道,世界(world)
                 //首先判断是不是时间范围内，且是否属于关注玩家的列表里
                 is_valid = false;
                 countAllReview++;
