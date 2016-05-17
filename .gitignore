@@ -17,3 +17,7 @@ hs_err_pid*
 Data/*
 lib/*
 target/*
+*.rar
+0*.txt
+
+
