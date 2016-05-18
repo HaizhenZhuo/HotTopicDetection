@@ -27,6 +27,7 @@ public class FilterDataUtilTest
             "神来|星来|来输出|来治疗|来奶|来大奶|来活人|来尸体|组上|开组|开车|上车|" +
             "司机|求带|带我|组我|加我|的加|走一个|走起|正在大荒寻找有缘人,快来结交一下吧|" +
             "开门迎客,欢迎各位天选者前来探访|[我的空间]";
+
     private Pattern p = Pattern.compile(regEx);
     private int countAllValidReview = 0;
     private int countAllReview = 0;
@@ -42,7 +43,7 @@ public class FilterDataUtilTest
             "07","08","09","10","11", "12","13","14","15"};
 
     private String []allTimePeriod= new String[]{
-        "2016-04-06—19:04:00_2016-04-07-09:00:00.txt",
+        "2016-04-06-19:04:00_2016-04-07-09:00:00.txt",
         "2016-04-07-10:00:00_2016-04-09-10:00:00.txt",
         "2016-04-12-18:53:00_2016-04-14-08:00:00.txt",
         "2016-04-14-10:00:00_2016-04-16-10:00:00.txt",
@@ -178,14 +179,12 @@ public class FilterDataUtilTest
                 if(!is_valid)
                     continue;
 
-
                 //屏蔽组队频道和势力频道中的组队信息，（系统红包信息和系统发布的信息全都没有记录，所以不需要过滤）
                 if((channel.equals("team")||channel.equals("faction"))&&content.contains("中创建了队伍,一起来玩吧"))
                 {
                     //System.err.println(channel+"***********"+content);
                     continue;
                 }
-
 
                 //过滤掉含有屏蔽词的评论（包括特殊语句）
                 Matcher m = p.matcher(content);
