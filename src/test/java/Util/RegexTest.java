@@ -13,11 +13,14 @@ public class RegexTest
     @Test
     public void testRegex()
     {
-//        String content = "¶ÔµÄ#123#123ºÇºÇ";
-        String content = "##1#12";
+        String content2 = "¶ÔµÄ#123#123ºÇºÇ";
+        String content3 = "##1#12+Q";
+        String content = "O(¡É_¡É)O";
 
-        String regEx1 = "\\+q|\\+Q|^([#[0-9]]+)$";
-        String regEx = "^(#[1-9]+)+$";
+        String regEx2 = "\\+q|\\+Q|^(#[0-9]+)+$"; //´¿±íÇé
+        String regEx3 = "^([0-9]*)$";//´¿Êý×Ö
+        String regEx4 = "^[\\pP\\pS]+$";//´¿·ûºÅ
+        String regEx = "\\+q|\\+Q|^(#[0-9]+)+$|^[\\pP\\pS]+$|^([0-9]*)$";//´¿·ûºÅ
         Pattern pattern = Pattern.compile(regEx);
         Matcher m = pattern.matcher(content);
         System.err.println(content+"*********************"+m.find());
