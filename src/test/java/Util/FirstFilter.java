@@ -10,8 +10,7 @@ import java.util.regex.Pattern;
 
 /**
  * 系统红包信息和系统频道所有信息都没有记录在log中，所以不需要过滤
- * Created by hzzhuohaizhen on 2016/5/16.
- * 602634+47905
+ * Created by hzzhuohaizhen on 2016/5/19.
  *
  */
 public class FirstFilter
@@ -100,8 +99,8 @@ public class FirstFilter
             {
                 in = new BufferedReader(new InputStreamReader(bis,encoding), 25 * 1024 * 1024);//25M缓存
             }
-
-            FileWriter fileWriter_output = new FileWriter(inputFile+"_firstFilter.txt");
+            String outputFile = inputFile+"_firstFilter.txt";
+            FileWriter fileWriter_output = new FileWriter(outputFile);
             while (in.ready()) {
                 String line = in.readLine();
                 if(line==null)
@@ -129,10 +128,11 @@ public class FirstFilter
                 fileWriter.append(line + "\n");
 
                 countValidReview_inputFile++;
-                fileWriter_output.append(countValidReview_inputFile+"\t"+line + "\n");
+//                fileWriter_output.append(countValidReview_inputFile+"\t"+line + "\n");
+                fileWriter_output.append(line + "\n");
             }
             countInputFile = countValidReview_inputFile;
-            System.err.println(inputFile+"----------"+countValidReview_inputFile);
+            System.out.println(inputFile+"----------"+countValidReview_inputFile);
             in.close();
             fileWriter_output.flush();
             fileWriter_output.close();
