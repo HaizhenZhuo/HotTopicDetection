@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  */
 public class FirstFilter
 {
-    private String encoding = "utf-8";//默认读取文件使用UTF-8
+    private String encoding = "";//默认读取文件使用UTF-8
     private String regEx = "\\+q|\\+Q|^[[#[0-9]*]*]$";
     private Pattern pattern = Pattern.compile(regEx);
     private int countAllValidReview = 0;
@@ -92,7 +92,7 @@ public class FirstFilter
             boolean is_valid = false;
             String channel = null;
 
-            if(encoding==null)
+            if(encoding==null||encoding=="")
             {
                 in = new BufferedReader(new InputStreamReader(bis), 25 * 1024 * 1024);//25M缓存
             }
@@ -129,7 +129,8 @@ public class FirstFilter
                 fileWriter.append(line + "\n");
 
                 countValidReview_inputFile++;
-                fileWriter_output.append(countValidReview_inputFile+"\t"+line + "\n");
+//                fileWriter_output.append(countValidReview_inputFile+"\t"+line + "\n");
+                fileWriter_output.append(line + "\n");
             }
             countInputFile = countValidReview_inputFile;
             System.err.println(inputFile+"----------"+countValidReview_inputFile);
