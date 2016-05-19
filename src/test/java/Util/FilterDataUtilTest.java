@@ -9,7 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 系统红包信息和系统频道所有信息都没有记录在log中
+ * 系统红包信息和系统频道所有信息都没有记录在log中，所以不需要过滤
  * Created by hzzhuohaizhen on 2016/5/16.
  * 602634+47905
  *
@@ -98,7 +98,7 @@ public class FilterDataUtilTest
 
             for(int i=0;i<arrFileWriterCount.length;i++)
             {
-                System.err.println("the count of "+i+" period: "+ arrFileWriterCount[i]);
+                System.err.println("the count of "+arrAllTimePeriod[i]+" period: "+ arrFileWriterCount[i]);
             }
 
             fileWriter.flush();
@@ -204,7 +204,7 @@ public class FilterDataUtilTest
                     continue;
                 }
 
-                if(content.length()<10&&(content.contains("组")||content.contains("来")))
+                if(content.length()<=10&&(content.contains("组")||content.contains("来")))
                 {
                     //System.err.println(channel+"----------"+content);
                     continue;
