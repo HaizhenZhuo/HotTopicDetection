@@ -127,14 +127,16 @@ public class ThridFilter
                         countChurnKeyword[i]++;
                         countAllValidReview++;
                         countValidReview_inputFile++;
+                        fileWriter_output.append(line + "\n");
+                        fileWriter.append(line + "\n");
                         break;
                     }
                 }
 
 
-                fileWriter.append(line + "\n");
 
-                fileWriter_output.append(line + "\n");
+
+
             }
             arrCountAllTimePeriodList.add(countValidReview_inputFile);
             System.err.println("时间段:"+inputFile.substring(0,inputFile.length()-16)+"\t总评论数: "+countReview+"\t有流失词的评论数: "+countValidReview_inputFile);
