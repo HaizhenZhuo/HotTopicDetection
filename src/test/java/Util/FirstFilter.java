@@ -34,7 +34,7 @@ public class FirstFilter
         "2016-04-18-10-00-00_2016-04-20-10-00-00.txt",
         "2016-04-27-17-09-00_2016-04-28-09-00-00.txt",
         "2016-04-28-10-00-00_2016-04-30-10-00-00.txt"};
-    private int [] arrCountAllTimePeriod = new int[8];
+    private List<Integer> arrCountAllTimePeriodList = new ArrayList<Integer>();
 
 
     @Test
@@ -45,7 +45,7 @@ public class FirstFilter
             fileWriter = new FileWriter("Data/allValidReview.txt");
             for (int i = 0; i< arrAllTimePeriod.length; i++)
             {
-                FilterReview(arrAllTimePeriod[i],arrCountAllTimePeriod[i]);
+                FilterReview(arrAllTimePeriod[i]);
             }
 
 
@@ -54,7 +54,7 @@ public class FirstFilter
 
             for(int i=0;i<arrAllTimePeriod.length;i++)
             {
-                System.err.println("the count of "+arrAllTimePeriod[i]+" period: "+ arrCountAllTimePeriod[i]);
+                System.err.println("the count of "+arrAllTimePeriod[i]+" period: "+ arrCountAllTimePeriodList.get(i));
             }
 
             fileWriter.flush();
@@ -70,7 +70,7 @@ public class FirstFilter
      * 对指定文件进行过滤评论
      * @param inputFile
      */
-    public void FilterReview(String inputFile,int countInputFile)
+    public void FilterReview(String inputFile)
     {
         try {
             BufferedInputStream bis =
@@ -132,7 +132,7 @@ public class FirstFilter
 //                fileWriter_output.append(countValidReview_inputFile+"\t"+line + "\n");
                 fileWriter_output.append(line + "\n");
             }
-            countInputFile = countValidReview_inputFile;
+            arrCountAllTimePeriodList.add(countValidReview_inputFile);
             System.err.println(inputFile+"----------"+countValidReview_inputFile);
             in.close();
             fileWriter_output.flush();
