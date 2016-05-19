@@ -44,12 +44,8 @@ public class FilterDataUtilTest
     private String [] arrAllPartFileHead = new String[]{"00","01", "02","03","04","05","06",
             "07","08","09","10","11", "12","13","14","15"};
 
-<<<<<<< HEAD
-    private String []allTimePeriod= new String[]{
-=======
     //°Ë¸öÊ±¼ä¶Î
     private String [] arrAllTimePeriod = new String[]{
->>>>>>> 7d7a296f8f0b46acb17d09557278ca36c726919f
         "2016-04-06-19-04-00_2016-04-07-09-00-00.txt",
         "2016-04-07-10-00-00_2016-04-09-10-00-00.txt",
         "2016-04-12-18-53-00_2016-04-14-08-00-00.txt",
