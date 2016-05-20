@@ -64,7 +64,6 @@ public class FirstFilter
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
 
@@ -124,7 +123,7 @@ public class FirstFilter
                 //过滤掉含有屏蔽词的评论（包括特殊语句）
                 Matcher m = pattern.matcher(content);
                 if(m.find()||content.length()<=1) {
-                    //System.err.println(content);
+                    System.err.println(content);
                     continue;
                 }
 

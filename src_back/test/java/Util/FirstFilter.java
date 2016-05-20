@@ -10,14 +10,15 @@ import java.util.regex.Pattern;
 
 /**
  * 系统红包信息和系统频道所有信息都没有记录在log中，所以不需要过滤
- * Created by hzzhuohaizhen on 2016/5/16.
- * 602634+47905
+ * Created by hzzhuohaizhen on 2016/5/19.
  *
  */
 public class FirstFilter
 {
-    private String encoding = "";//默认读取文件使用UTF-8
-    private String regEx = "\\+q|\\+Q|^[[#[0-9]*]*]$";
+    private String encoding = null;//默认读取文件使用UTF-8
+    private String regEx = "\\+q|加Q|^(#[0-9]+)+$|^[\\pP\\pSa-zA-Z0-9]+$|^([0-9]*)$";//纯符号
+//    private String regEx = "^[\\pP\\pSa-zA-Z0-9]+$";//纯符号
+
     private Pattern pattern = Pattern.compile(regEx);
     private int countAllValidReview = 0;
     private int countAllReview = 0;
@@ -54,7 +55,8 @@ public class FirstFilter
 
             for(int i=0;i<arrAllTimePeriod.length;i++)
             {
-                System.err.println("the count of "+arrAllTimePeriod[i]+" period: "+ arrCountAllTimePeriodList.get(i));
+                String fileName = arrAllTimePeriod[i];
+                System.err.println("the count of "+fileName.substring(0,fileName.length()-4)+"_firstFilter period: "+ arrCountAllTimePeriodList.get(i));
             }
 
             fileWriter.flush();
@@ -78,6 +80,7 @@ public class FirstFilter
             int countValidReview_inputFile = 0;
             BufferedReader in = null;
             String []reviewInfo = null;
+            int countReview = 0;
             long time_stamp = 0;
             String t_when = null;
             String axis = null;
@@ -90,6 +93,7 @@ public class FirstFilter
             String chat_time = null;
             String content = null;
             boolean is_valid = false;
+            String role_name = null;
             String channel = null;
 
             if(encoding==null||encoding=="")
@@ -100,8 +104,8 @@ public class FirstFilter
             {
                 in = new BufferedReader(new InputStreamReader(bis,encoding), 25 * 1024 * 1024);//25M缓存
             }
-
-            FileWriter fileWriter_output = new FileWriter(inputFile+"_firstFilter.txt");
+            String outputFile = inputFile.substring(0,inputFile.length()-4)+"_firstFilter.txt";
+            FileWriter fileWriter_output = new FileWriter(outputFile);
             while (in.ready()) {
                 String line = in.readLine();
                 if(line==null)
@@ -113,15 +117,16 @@ public class FirstFilter
                 time_stamp = Long.parseLong(reviewInfo[8]);//时间戳
                 content = reviewInfo[9];//评论内容
                 channel = reviewInfo[19];//频道,世界(world)
+                role_name = reviewInfo[11];//频道,世界(world)
                 //首先判断是不是时间范围内，且是否属于关注玩家的列表里
                 countAllReview++;
-
-//                过滤掉含有屏蔽词的评论（包括特殊语句）
-//                Matcher m = pattern.matcher(content);
-//                if(m.find()) {
-//                    //System.err.println(channel + "***********" + content+"********"+m.find());
-//                    continue;
-//                }
+                countReview++;
+                //过滤掉含有屏蔽词的评论（包括特殊语句）
+                Matcher m = pattern.matcher(content);
+                if(m.find()||content.length()<=1) {
+                    //System.err.println(content);
+                    continue;
+                }
 
 
 
@@ -130,10 +135,11 @@ public class FirstFilter
 
                 countValidReview_inputFile++;
 //                fileWriter_output.append(countValidReview_inputFile+"\t"+line + "\n");
-                fileWriter_output.append(line + "\n");
+//                fileWriter_output.append(content + "\t"+role_name+'\t'+channel+'\n');
+                fileWriter_output.append(line+'\n');
             }
             arrCountAllTimePeriodList.add(countValidReview_inputFile);
-            System.err.println(inputFile+"----------"+countValidReview_inputFile);
+            System.err.println(inputFile+"----------"+countReview);
             in.close();
             fileWriter_output.flush();
             fileWriter_output.close();

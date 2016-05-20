@@ -112,10 +112,10 @@ public class SecondFilter
                 Pattern pattern = Pattern.compile(regEx);
                 Matcher m = pattern.matcher(content);
                 if(!m.find()) {
+                    //System.err.println(content);
                     continue;
                 }
 
-//                System.err.println(content);
 
 
                 countAllValidReview++;
